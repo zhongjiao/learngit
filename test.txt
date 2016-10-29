@@ -1,0 +1,1 @@
+This txt file is as an example for testing git delete
