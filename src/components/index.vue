@@ -93,7 +93,11 @@ export default {
       let avg = Math.floor(this.mdlLen / 2);
 
       this.mdlPageCount[avg] = count;
-      if((count - avg) > 1 && (count + avg -1) < (this.countTotal-1)) this.start = count - avg;
+      if(this.pageData.length > this.mdlLen) {
+        if((count - avg) > 1 && (count + avg -1) < (this.countTotal - 1)) this.start = count - avg;
+        if((count - avg) <= 1) this.start = 2;
+        if((count + avg -1) >= (this.countTotal - 1)) this.start = this.pageData.length - this.mdlLen;
+      }
     }
   },
   mounted: function(){
