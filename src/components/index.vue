@@ -1,144 +1,130 @@
-<template lang="html">
-  <el-row class="ymy-pagelist">
-    <el-col :span="4" class="page-total">
-      <span>共{{pageTotal}}页 共{{countTotal}}条</span>
-    </el-col>
-    <el-col :span="18" class="page-ctl-to">
-      <el-row type="flex" justify="end" class="page-controls">
-        <el-col :span="12" class="pagelist-ctl">
-          <el-button icon="el-icon-arrow-left">上一页</el-button>
-          <el-button @click="goPage(1)" :class="">1</el-button>
-          <el-button v-if="mdlPageCount[0] > 2">...</el-button>
-          <el-button v-for="count in mdlPageCount"
-                     :key="count"
-                     @click="goPage($event, count)">{{count}}</el-button>
-          <el-button v-if="mdlPageCount[mdlLen-1] < (countTotal-1)">...</el-button>
-          <el-button @click="goPage(pageData.length)">{{pageData.length}}</el-button>
-          <el-button>下一页<i class="el-icon-arrow-right el-icon--right"></i></el-button>
-        </el-col>
-        <el-col :span="12">
-          当前显示 &nbsp;
-          <el-select v-model="value" tag="span" class="ymy-input" size="mini" width="100px" placeholder="请选择">
-            <el-option
-              v-for="item in options"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value">
-            </el-option>
-          </el-select> &nbsp; 条
-          到第
-          <input type="number" class="ymy-page-to" v-model="jumpPage">
-          页
-        </el-col>
-      </el-row>
-    </el-col>
-    <div style="clear: both">
-      {{this.$data.pageData[this.$data.pageData.length-1]}}
-    </div>
-  </el-row>
+<template>
+  <el-container class="main_view-container">
+    <el-header class="main_view-container-head">Header</el-header>
+    <el-container>
+      <el-aside width="200px" style="background-color: rgb(238, 241, 246)">
+        <el-menu :default-openeds="['1', '3']">
+          <el-submenu index="1">
+            <template slot="title"><i class="el-icon-message"></i>导航一</template>
+            <el-menu-item-group>
+              <template slot="title">分组一</template>
+              <el-menu-item index="1-1">选项1</el-menu-item>
+              <el-menu-item index="1-2">选项2</el-menu-item>
+            </el-menu-item-group>
+            <el-menu-item-group title="分组2">
+              <el-menu-item index="1-3">选项3</el-menu-item>
+            </el-menu-item-group>
+            <el-submenu index="1-4">
+              <template slot="title">选项4</template>
+              <el-menu-item index="1-4-1">选项4-1</el-menu-item>
+            </el-submenu>
+          </el-submenu>
+          <el-submenu index="2">
+            <template slot="title"><i class="el-icon-menu"></i>导航二</template>
+            <el-menu-item-group>
+              <template slot="title">分组一</template>
+              <el-menu-item index="2-1">选项1</el-menu-item>
+              <el-menu-item index="2-2">选项2</el-menu-item>
+            </el-menu-item-group>
+            <el-menu-item-group title="分组2">
+              <el-menu-item index="2-3">选项3</el-menu-item>
+            </el-menu-item-group>
+            <el-submenu index="2-4">
+              <template slot="title">选项4</template>
+              <el-menu-item index="2-4-1">选项4-1</el-menu-item>
+            </el-submenu>
+          </el-submenu>
+          <el-submenu index="3">
+            <template slot="title"><i class="el-icon-setting"></i>导航三</template>
+            <el-menu-item-group>
+              <template slot="title">分组一</template>
+              <el-menu-item index="3-1">选项1</el-menu-item>
+              <el-menu-item index="3-2">选项2</el-menu-item>
+            </el-menu-item-group>
+            <el-menu-item-group title="分组2">
+              <el-menu-item index="3-3">选项3</el-menu-item>
+            </el-menu-item-group>
+            <el-submenu index="3-4">
+              <template slot="title">选项4</template>
+              <el-menu-item index="3-4-1">选项4-1</el-menu-item>
+            </el-submenu>
+          </el-submenu>
+        </el-menu>
+      </el-aside>
+
+      <el-container>
+        <el-header class="main_content-head">
+          <div class="main_content-head-filter">
+            <el-dropdown>
+              <i class="el-icon-setting" style="margin-right: 15px"></i>
+              <el-dropdown-menu slot="dropdown">
+                <el-dropdown-item>查看</el-dropdown-item>
+                <el-dropdown-item>新增</el-dropdown-item>
+                <el-dropdown-item>删除</el-dropdown-item>
+              </el-dropdown-menu>
+            </el-dropdown>
+            <span>王小虎</span>
+          </div>
+        </el-header>
+
+        <el-main>
+
+          <el-table :data="tableData">
+            <el-table-column prop="date" label="日期" width="140">
+            </el-table-column>
+            <el-table-column prop="name" label="姓名" width="120">
+            </el-table-column>
+            <el-table-column prop="address" label="地址">
+            </el-table-column>
+          </el-table>
+        </el-main>
+      </el-container>
+    </el-container>
+  </el-container>
 </template>
-
 <script>
-export default {
-  data() {
-    return {
-      options: [{
-        value: '10',
-        label: '10条'
-      }, {
-        value: '50',
-        label: '50条'
-      }, {
-        value: '100',
-        label: '100条'
-      }, {
-        value: '500',
-        label: '500条'
-      }],
-      pageData: [],
-      value: 10,
-      pageNum: 1,
-      jumpPage: 1,
-      start: 2,
-      countTotal: 0,
-      mdlLen: 5
-    }
-  },
-  created() {
-    for (let i = 0; i < 10; i ++) {
-      this.pageData.push(Math.floor(Math.random() * 101));
-    }
-    this.countTotal = this.pageData.length;
-  },
-  computed: {
-    pageTotal() {
-      return Math.ceil(this.countTotal / this.value);
-    },
-    mdlPageCount() {
-      let tempArr = [];
-      for (let i = 0; i < this.mdlLen; i ++) {
-        tempArr[i] = this.start++;
-      }
-      return tempArr;
-    },
-    isActive() {
-
-    }
-  },
-  watch: {
-
-  },
-  methods: {
-    goPage(event,count) {
-      let avg = Math.floor(this.mdlLen / 2);
-
-      this.mdlPageCount[avg] = count;
-      if(this.pageData.length > this.mdlLen) {
-        if((count - avg) > 1 && (count + avg -1) < (this.countTotal - 1)) this.start = count - avg;
-        if((count - avg) <= 1) this.start = 2;
-        if((count + avg -1) >= (this.countTotal - 1)) this.start = this.pageData.length - this.mdlLen;
+  export default {
+    data() {
+      const item = {
+        date: '2016-05-02',
+        name: '王小虎',
+        address: '上海市普陀区金沙江路 1518 弄'
+      };
+      return {
+        tableData: Array(20).fill(item)
       }
     }
-  },
-  mounted: function(){
-
-  }
-}
+  };
 </script>
-
 <style lang="scss">
-  .ymy-pagelist {
-    .page-controls {
-      text-align: right;
+  .main_view-container {
+
+    position: absolute;
+    height: 100%;
+    width: 100%;
+
+    .main_view-container-head {
+
+      background-color: #B3C0D1;
+      color: #333;
+      text-align: center;
+      line-height: 60px;
+      border: 1px solid #eee;
     }
-    .el-button {
-      padding: 4px 7px;
+    .main_content-head {
+
+      padding-right: 40px;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      font-size: 12px
     }
-    .page-total, .page-ctl-to {
-      color: #999;
-    }
-    .pagelist-ctl {
-      white-space: nowrap;
-    }
-    .ymy-input {
-      width: 90px;
-    }
-    .ymy-page-to {
-      -webkit-appearance: none;
-      box-sizing: border-box;
-      color: #606266;
-      display: inline-block;
-      font-size: inherit;
-      line-height: 1;
-      outline: 0;
-      padding: 0 3px 0 15px;
-      width: 60px;
-      height:28px;
-      border-radius: 4px;
-      border: 1px solid #dcdfe6;
-    }
-    .active {
-      color: dodgerblue;
+    .main_content-head-filter{
+      cursor: pointer;
+      &:hover {
+        color: darkred;
+        text-shadow: 1px 0px 0 dodgerblue;
+      }
     }
   }
 </style>
