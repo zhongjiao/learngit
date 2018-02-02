@@ -8,24 +8,23 @@
         <el-col :span="12" class="pagelist-ctl">
           <el-button icon="el-icon-arrow-left" @click="prePage">上一页</el-button>
           <el-button @click="goPage(1)" :class="{active: isActive == 1}">1</el-button>
-          <el-button v-="mdlPageCount[0] > 2"
-                     :icon="arrowLeft"
-                     @click.stop="prevTurnPage"
-                     @mouseenter.native="arrowLeft = 'el-icon-d-arrow-left'"
-                     @mouseleave.native="arrowLeft = 'el-icon-more'"
-          ></el-button>
-
-          <el-button v-for="count in mdlPageCount"
+          <span class="page-btn page-btn-more"
+                :class="arrowLeft"
+                v-show="mdlPageCount[0] > 2"
+                @click.stop="prevTurnPage"
+                @mouseenter.native="arrowLeft = 'el-icon-d-arrow-left'"
+                @mouseleave.native="arrowLeft = 'el-icon-more'"
+          ></span>
+          <button class="page-btn" v-for="count in mdlPageCount"
                      :key="count"
                      @click="goPage(count)"
-                     :class="{active: isActive == count}">{{count}}</el-button>
-
-          <el-button v-show="mdlPageCount[mdlLen-1] < (pageTotal-1)"
-                     :icon="arrowRight"
-                     @click.stop="nextTurnPage"
-                     @mouseenter.native="arrowRight = 'el-icon-d-arrow-right'"
-                     @mouseleave.native="arrowRight = 'el-icon-more'"></el-button>
-
+                     :class="{active: isActive == count}">{{count}}</button>
+          <span class="page-btn page-btn-more"
+                :class="arrowRight"
+                v-show="mdlPageCount[mdlLen-1] < (pageTotal-1)"
+                @click.stop="nextTurnPage"
+                @mouseenter.native="arrowRight = 'el-icon-d-arrow-right'"
+                @mouseleave.native="arrowRight = 'el-icon-more'"></span>
           <el-button @click="goPage(pageTotal)"
                      :class="{active: isActive == pageTotal}">{{pageTotal}}</el-button>
           <el-button @click="nextPage">下一页<i class="el-icon-arrow-right el-icon--right"></i></el-button>
@@ -140,6 +139,7 @@
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+    width: 100%;
     .page-controls {
       text-align: right;
     }
@@ -169,15 +169,37 @@
       border-radius: 4px;
       border: 1px solid #dcdfe6;
     }
-    .active {
-      background-color: dodgerblue;
-      border-color: dodgerblue;
-      color: #fff;
-    }
     .el-button--default:hover {
       color: #fff;
       background-color: dodgerblue;
       border-color: dodgerblue;
+    }
+    .page-btn {
+      padding: 4px 7px;
+      display: inline-block;
+      text-align: center;
+      margin-left: 10px;
+      background-color: #fff;
+      border-radius: 3px;
+      outline: none;
+      border: 1px solid #dcdfe6;
+      color: #606266;
+      cursor: pointer;
+      &:hover {
+        color: #fff;
+        background-color: dodgerblue;
+        border-color: dodgerblue;
+      }
+    }
+    .page-btn-more {
+      position: relative;
+      top: 1px;
+      padding: 3px 7px;
+    }
+    .active {
+      background-color: dodgerblue;
+      border-color: dodgerblue;
+      color: #fff;
     }
   }
 </style>
