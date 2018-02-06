@@ -4,6 +4,7 @@ import Index from '@/components/index'
 
 import CharacterData from '@/components/character-data/character-data'
 import Page from '@/components/page/page'
+import Atom from '@/components/animation/atom-animate/atom-animate'
 
 Vue.use(Router)
 
@@ -24,6 +25,11 @@ export default new Router({
           name: 'page',
           component: Page
         },
+        {
+          path: '/atom-animate',
+          name: 'atom',
+          component: Atom
+        }
       ]
     }
 

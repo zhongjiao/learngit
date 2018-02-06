@@ -1,5 +1,5 @@
 <template>
-    <div class="character-data">
+    <div class="character-data" ref="box">
       <el-header class="main_content-head">
         <div class="main_content-head-filter">
           <el-dropdown>
@@ -13,10 +13,8 @@
         <span>王小虎</span>
         </div>
       </el-header>
-
       <el-main>
-
-      <el-table :data="tableData">
+      <el-table :data="tableData" :height="height">
         <el-table-column prop="date" label="日期" width="140">
         </el-table-column>
         <el-table-column prop="name" label="姓名" width="120">
@@ -29,8 +27,15 @@
 </template>
 
 <script>
+  import { getStyle } from '@/utils/dom'
   export default {
     name: "character-data",
+    created: function() {
+
+    },
+    mounted: function() {
+      this.height = (Number(getStyle(this.$refs.box, 'height').split('p')[0]) - 80);
+    },
     data() {
       const item = {
         date: '2016-05-02',
@@ -38,8 +43,12 @@
         address: '上海市普陀区金沙江路 1518 弄'
       };
       return {
-        tableData: Array(30).fill(item)
+        tableData: Array(30).fill(item),
+        height: 0
       }
+    },
+    computed: {
+
     }
   }
 </script>

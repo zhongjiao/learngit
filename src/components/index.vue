@@ -7,7 +7,7 @@
           <el-submenu index="1">
             <template slot="title"><i class="el-icon-message"></i>导航一</template>
             <el-menu-item-group>
-              <template slot="title">分组一</template>
+              <template slot="title">静态</template>
               <el-menu-item index="1-1">
                 <router-link to="/character-data">学生资料</router-link>
               </el-menu-item>
@@ -15,8 +15,10 @@
                 <router-link to="/page">分页</router-link>
               </el-menu-item>
             </el-menu-item-group>
-            <el-menu-item-group title="分组2">
-              <el-menu-item index="1-3">选项3</el-menu-item>
+            <el-menu-item-group title="动态">
+              <el-menu-item index="1-3">
+                <router-link to="/atom-animate">粒子动画</router-link>
+                </el-menu-item>
             </el-menu-item-group>
             <el-submenu index="1-4">
               <template slot="title">选项4</template>
